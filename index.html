@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Please Forgive Me Kajal! 🥺🪻</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f3e5f5, #e8eaf6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            text-align: center;
+            transition: background 0.5s ease;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            max-width: 450px;
+            width: 90%;
+            z-index: 10;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        #emoji-display {
+            font-size: 70px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            color: #4a148c;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        p {
+            color: #311b92;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 12px 35px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #7e57c2, #ba68c8);
+            color: white;
+            box-shadow: 0 5px 15px rgba(126, 87, 194, 0.4);
+        }
+
+        .btn-no {
+            background: #e0e0e0;
+            color: #616161;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-item {
+            position: absolute;
+            animation: float 6s linear infinite;
+            bottom: -50px;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-card">
+        <div id="emoji-display">🥺💜</div>
+        <h1 id="title-text">Maaf Krdo Na Kajal!</h1>
+        <p id="body-text">Mujhe pata hai galti ho gayi, par apni sabse pyari bestie ke bina mera mann nahi lagta. Dekho tumhare liye special <b>Hyacinth Flowers</b> bhi mangvaye hain. Ab gussa thuk do aur maaf krdo please? 🪻</p>
+        
+        <div class="btn-group" id="actions">
+            <button class="btn btn-yes" onclick="forgive()">Haan, Maaf Kiya ✨</button>
+            <button class="btn btn-no" id="no-btn" onclick="dontForgive()">Nahi 😡</button>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'normal';
+        let noCount = 0;
+
+        const sadMessages = [
+            "Aise mat karo Kajal... 💔 Ek baar soch lo!",
+            "Sach me maaf nahi karogi? Dil toot gaya mera toh 🥺",
+            "Maan jao na cutie, itna gussa achha nahi hota! 👉👈",
+            "Chalo ab zidd chhodo, kitna bhao khaaogi? 😂💔"
+        ];
+
+        function createFloatingItem(type) {
+            const item = document.createElement('div');
+            item.classList.add('floating-item');
+            
+            if (type === 'happy') {
+                const happyItems = ['🪻', '🌸', '💜', '✨'];
+                item.innerText = happyItems[Math.floor(Math.random() * happyItems.length)];
+            } else if (type === 'sad') {
+                item.innerText = '💔';
+            } else {
+                item.innerText = Math.random() > 0.5 ? '🪻' : '💜';
+            }
+
+            item.style.left = Math.random() * 100 + 'vw';
+            item.style.animationDuration = Math.random() * 2 + 3 + 's';
+            item.style.fontSize = Math.random() * 20 + 20 + 'px';
+            
+            document.body.appendChild(item);
+
+            setTimeout(() => { item.remove(); }, 5000);
+        }
+
+        let flowerInterval = setInterval(() => {
+            if (currentMode !== 'happy') createFloatingItem('normal');
+        }, 400);
+
+        function dontForgive() {
+            currentMode = 'sad';
+            document.body.style.background = "linear-gradient(135deg, #cfd8dc, #b0bec5)";
+            
+            document.getElementById('emoji-display').innerText = "😭💔";
+            document.getElementById('title-text').innerText = "Plss Maan Jao!!";
+            
+            document.getElementById('body-text').innerText = sadMessages[noCount % sadMessages.length];
+            noCount++;
+
+            for(let i=0; i<8; i++) {
+                createFloatingItem('sad');
+            }
+
+            const yesBtn = document.querySelector('.btn-yes');
+            let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            yesBtn.style.fontSize = (currentSize + 3) + "px"; 
+        }
+
+        function forgive() {
+            currentMode = 'happy';
+            clearInterval(flowerInterval);
+            
+            document.body.style.background = "linear-gradient(135deg, #f8bbd0, #e1bee7)";
+            
+            document.getElementById('emoji-display').innerText = "🫂🪻💜";
+            document.getElementById('title-text').innerText = "Yaaay! I love you cutie!";
+            document.getElementById('body-text').innerText = "Mujhe pata tha meri bestie sabse achhi hai! Chalo ab ek badi si smile karo aur jaldi se gussa khatam. You are the best! ✨✨";
+            
+            document.getElementById('actions').style.display = 'none';
+
+            setInterval(() => {
+                createFloatingItem('happy');
+            }, 100);
+        }
+    </script>
+</body>
+</html>
